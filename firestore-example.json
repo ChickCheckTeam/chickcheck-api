@@ -1,0 +1,45 @@
+{
+    "collection": {
+        "users": {
+            "user_uniqueId_1": {
+                "id": "user_uniqueId_1",
+                "name": "John Doe",
+                "email": "johndoe@example.com",
+                "username": "johndoe",
+                "password": "password",
+                "scan_history": {
+                    "scan_uniquId_1": {
+                        "id": "scan_uniquId_1",
+                        "title": "Scan 1",
+                        "createdAt": "2013-01-01",
+                        "results": "This is the result of scan 1",
+                        "suggestion": "This is the suggestion of scan 1"
+                    },
+                    "scan_uniquId_2": {
+                        "id": "scan_uniquId_2",
+                        "title": "Scan 1",
+                        "createdAt": "2013-01-01",
+                        "results": "This is the result of scan 1",
+                        "suggestion": "This is the suggestion of scan 1"
+                    }
+                }
+            }
+        },
+        "articles": {
+            "article_uniqueId_1": {
+                "id": "article_uniqueId_1",
+                "title": "Article 1",
+                "author": "John Doe",
+                "createdAt": "2013-01-01",
+                "content": "This is the content of article 1"
+            },
+            "article_uniqueId_2": {
+                "id": "article_uniqueId_2",
+                "title": "Article 2",
+                "author": "Jane Doe",
+                "createdAt": "2013-01-02",
+                "content": "This is the content of article 2"
+            }
+        }
+    }
+}

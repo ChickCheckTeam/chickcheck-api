@@ -7,7 +7,7 @@ We aim to develop a backend API for Mobile Development. Ensuring API endpoint to
 - Authentication with JWT (jsonwebtoken)
 - Integrating with Tensorflow JS
 - Histories Scan result
-- 
+
 ## Installation
 
 Dillinger requires [Node.js](https://nodejs.org/) v10+ to run.

@@ -1,18 +1,22 @@
-const express = require('express')
-const app = express()
-const port = 3000
+import Hapi from "@hapi/hapi";
+import routes from "./routes.js";
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+(async () => {
+    const server = Hapi.server({
+        port: 3000,
+        host: 'localhost',
+        routes: {
+            cors: {
+                origin: ['*'],
+            },
+            payload: {
+                maxBytes: 1000000,
+            },
+        },
+    });
 
-app.get('/', (req, res) => {
-    const data = {
-        code: 200,
-        message: 'Hello World!',
-    }
-    return res.send(data)
-})
+    server.route(routes);
 
-app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`)
-})
+    await server.start();
+    console.log(`Server start at: ${server.info.uri}`);
+})();
