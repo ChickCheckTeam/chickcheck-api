@@ -1,0 +1,27 @@
+# Dependency directories
+node_modules/
+
+# Environment files
+.env
+.env.*
+
+# Log files
+logs/
+*.log
+
+# Build directories
+build/
+dist/
+out/
+
+# IDE-related files
+.vscode/
+.idea/
+*.iml
+
+# Miscellaneous
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.DS_Store
+Thumbs.db
