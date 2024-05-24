@@ -8,6 +8,11 @@ We aim to develop a backend API for Mobile Development. Ensuring API endpoint to
 - Integrating with Tensorflow JS
 - Histories Scan result
 
+## GCP Environment
+![diagram env][internal-source]
+
+[internal-source]: src/images/env%20diagram.png 'GCP Environment'
+
 ## Installation
 
 Dillinger requires [Node.js](https://nodejs.org/) v10+ to run.
