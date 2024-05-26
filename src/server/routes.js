@@ -1,11 +1,16 @@
-import handler from './handler.js';
+const fetchData = require('../server/handler');
 
 const routes = [
     {
-        method: 'GET',
-        path: '/',
-        handler: handler.home
+        path: '/predict',
+        method: 'POST',
+        handler: fetchData,
+        options: {
+            payload: {
+                allow: 'application/json',
+            }
+        }
     }
-];
+]
 
-export default routes;
+module.exports = routes;
