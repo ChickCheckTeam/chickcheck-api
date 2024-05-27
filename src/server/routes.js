@@ -1,4 +1,4 @@
-const fetchData = require('../server/handler');
+import fetchData from ('../server/handler.js');
 
 const routes = [
     {
@@ -13,4 +13,4 @@ const routes = [
     }
 ]
 
-module.exports = routes;
+export default routes;
