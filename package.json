@@ -15,7 +15,8 @@
   "dependencies": {
     "@google-cloud/firestore": "^7.7.0",
     "@hapi/hapi": "^21.3.9",
-    "@tensorflow/tfjs-node": "^4.14.0"
+    "@tensorflow/tfjs-node": "^4.14.0",
+    "jsonwebtoken": "^9.0.2"
   },
   "devDependencies": {
     "nodemon": "^3.1.0"
