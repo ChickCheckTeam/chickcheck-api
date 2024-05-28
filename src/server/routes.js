@@ -23,12 +23,12 @@ const routes = [
     {
         path: routeCore + '/user',
         method: 'GET',
-        handler: handler.getUsers
+        handler: handler.showUsers
     },
     {
         path: routeCore + '/user/{id}',
         method: 'GET',
-        handler: handler.getUserDetail
+        handler: handler.showUsersDetail
     },
     {
         path: routeCore + '/predict',

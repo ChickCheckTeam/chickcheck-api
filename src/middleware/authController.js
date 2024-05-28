@@ -1,4 +1,5 @@
 import jwt from "jsonwebtoken";
+import db from "../services/dataService.js";
 
 function isEmail(emailAdress){
     let regex = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
@@ -11,7 +12,7 @@ function isEmail(emailAdress){
 
 async function register(request, h) {
     // Register logic
-    const { username, email, password, passwordConfirm } = request.payload;
+    const { name, username, email, password, passwordConfirm } = request.payload;
 
     if (password !== passwordConfirm) {
         return h.response({

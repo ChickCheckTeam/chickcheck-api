@@ -1,5 +1,4 @@
 import dataService from '../services/dataService.js';
-import db from '../services/dataService.js';
 
 async function home(request, h) {
     return {
@@ -7,36 +6,17 @@ async function home(request, h) {
     };
 }
 
-async function getUsers(request, h) {
+async function showUsers(request, h) {
     try {
-        const snapshotUser = await db.collection('users').get();
-
-        const usersWithScanHistory = await Promise.all(
-            snapshotUser.docs.map(async (doc) => {
-                const data = doc.data();
-                const userId = doc.id; // Store the user ID for clarity
-
-                // Get the subcollection reference efficiently
-                const scanHistoryRef = db.collection('users').doc(userId).collection('scan_history');
-
-                // Fetch scan history data using a separate get() call
-                const scanHistorySnapshot = await scanHistoryRef.get();
-
-                // Extract scan history documents using a concise map
-                const scanHistory = scanHistorySnapshot.docs.map((scanDoc) => {
-                    const scan = scanDoc.data();
-                    return {
-                        id: scanDoc.id,
-                        ...scan,
-                    }
-                });
-
-                return { id: userId, ...data, scanHistory }; // Include scanHistory in the user object
-            })
-        );
-
-        const result = usersWithScanHistory;
-  
+        const users = await dataService.getUsers();
+        const result = users.map(user => ({
+            id: user.id,
+            name: user.name,
+            username: user.username,
+            email: user.email,
+            scanHistory: user.scanHistory
+        }))
+        
         return h.response({
             messages: 'All User Retrieved Successfully',
             data: result
@@ -48,40 +28,21 @@ async function getUsers(request, h) {
     }
 }
 
-async function getUserDetail(request, h) {
+async function showUsersDetail(request, h) {
     try {
-        const userId = request.params.id;
-        const userRef = db.collection('users').doc(userId);
-        const userDoc = await userRef.get();
-
-        if (!userDoc.exists) {
+        const result = await dataService.getUserById(request.params.id);
+        
+        if (result.code === 404) {
             return h.response({
-                message: 'User not found'
+                message: result.message
             }).code(404);
         }
 
-        const userData = userDoc.data();
-
-        const scanHistoryRef = userRef.collection('scan_history');
-        const scanHistorySnapshot = await scanHistoryRef.get();
-
-        const scanHistory = scanHistorySnapshot.docs.map((doc) => {
-            const scan = doc.data();
-            return {
-                id: doc.id,
-                ...scan,
-            }
-        });
-
-        const result = {
-            id: userId,
-            ...userData,
-            scanHistory,
-        };
+        delete result.data.password
 
         return h.response({
-            message: 'User Retrieved Successfully',
-            data: result
+            message: result.message,
+            data: result.data
         }).code(200);
     } catch (error) {
         return h.response({
@@ -90,4 +51,4 @@ async function getUserDetail(request, h) {
     }
 }
 
-export default { home, getUsers, getUserDetail };
+export default { home, showUsers, showUsersDetail };
