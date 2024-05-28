@@ -40,6 +40,13 @@ const routes = [
             }
         }
     },
+
+    //article fetching
+    {
+        path: routeCore + '/article',
+        method: 'GET',
+        handler: handler.showArticles
+    }
 ]
 
 export default routes;
