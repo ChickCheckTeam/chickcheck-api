@@ -1,4 +1,4 @@
-import dataService from "../services/dataService";
+import dataService from "../services/dataService.js";
 
 async function storeScan(request, h) {
 

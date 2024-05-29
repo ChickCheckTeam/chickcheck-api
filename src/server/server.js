@@ -53,39 +53,39 @@ const env = dotenv.config().parsed;
 
     server.route(routes);
 
-    server.ext('onPreResponse', function (request, h) {
-        const response = request.response;
+    // server.ext('onPreResponse', function (request, h) {
+    //     const response = request.response;
     
-        if (response instanceof InputError) {
-            return h.response({
-                status: 'fail',
-                message: `Terjadi kesalahan dalam melakukan prediksi`,
-            }).code(response.statusCode);
-        }
+    //     if (response instanceof InputError) {
+    //         return h.response({
+    //             status: 'fail',
+    //             message: `Terjadi kesalahan dalam melakukan prediksi`,
+    //         }).code(response.statusCode);
+    //     }
     
-        if (response.isBoom) {
-            return h.response({
-                status: 'fail',
-                message: response.message,
-            }).code(response.output.statusCode);
-        }
+    //     if (response.isBoom) {
+    //         return h.response({
+    //             status: 'fail',
+    //             message: response.message,
+    //         }).code(response.output.statusCode);
+    //     }
     
-        if (request.payload && request.payload.length > 1000000) {
-            return h.response({
-                status: 'fail',
-                message: 'Payload content length greater than maximum allowed: 1000000',
-            }).code(413);
-        }
+    //     if (request.payload && request.payload.length > 1000000) {
+    //         return h.response({
+    //             status: 'fail',
+    //             message: 'Payload content length greater than maximum allowed: 1000000',
+    //         }).code(413);
+    //     }
     
-        if (response.statusCode === 400) {
-            return h.response({
-                status: 'fail',
-                message: 'Terjadi kesalahan dalam melakukan prediksi',
-            }).code(400);
-        }
+    //     if (response.statusCode === 400) {
+    //         return h.response({
+    //             status: 'fail',
+    //             message: 'Terjadi kesalahan dalam melakukan prediksi',
+    //         }).code(400);
+    //     }
     
-        return h.continue;
-    });
+    //     return h.continue;
+    // });
 
     process.on('unhandledRejection', (err) => {
         console.log(err);

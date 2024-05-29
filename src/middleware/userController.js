@@ -1,4 +1,5 @@
 import dataService from '../services/dataService.js';
+import bcrypt from "bcryptjs";
 
 function isEmail(emailAdress){
     let regex = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;

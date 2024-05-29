@@ -2,6 +2,7 @@ import authController from '../middleware/authController.js';
 import userController from '../middleware/userController.js';
 import globalHandler from '../middleware/globalController.js';
 import scanController from '../middleware/scanController.js';
+import articleController from '../middleware/articleController.js';
 
 const routeCore = "/api";
 
@@ -71,7 +72,7 @@ const routes = [
     {
         path: routeCore + '/article',
         method: 'GET',
-        handler: globalHandler.showArticles
+        handler: articleController.getArticles
     }
 ]
 

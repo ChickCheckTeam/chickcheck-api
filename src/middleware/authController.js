@@ -1,6 +1,6 @@
 import dataService from "../services/dataService.js";
-import bcrypt from "bcryptjs";
 import jwtToken from "jsonwebtoken";
+import bcrypt from "bcryptjs";
 import dotenv from "dotenv";
 
 const env = dotenv.config().parsed;
