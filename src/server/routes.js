@@ -47,16 +47,13 @@ const routes = [
             }
         }
     },
+    
+    //article fetching
     {
-        path: routeCore + '/predict',
-        method: 'POST',
-        handler: handler.home,
-        options: {
-            payload: {
-                allow: 'application/json',
-            }
-        }
-    },
+        path: routeCore + '/article',
+        method: 'GET',
+        handler: handler.showArticles
+    }
 ]
 
 export default routes;
