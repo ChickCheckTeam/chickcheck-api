@@ -35,12 +35,6 @@ const env = dotenv.config().parsed;
             }
 
             const header = request.headers.authorization.split(" ")[1];
-            console.log({
-                text: "berhasil masuk pake token",
-                decoded,
-                request: request.state.session,
-                header,
-            })
 
             if(header !== request.state.session) {
                 return h.response({
