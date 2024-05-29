@@ -7,19 +7,25 @@ const routes = [
     {
         path: routeCore + '/',
         method: 'GET',
-        handler: handler.home
+        handler: handler.home,
     },
     {
-        path: routeCore + '/register',
+        path: routeCore + '/login',
         method: 'POST',
-        handler: authController.register,
+        handler: authController.login,
         options: {
+            auth: false,
             payload: {
                 allow: 'application/json',
             }
         }
     },
-    // user routes
+    {
+        path: routeCore + '/logout',
+        method: 'POST',
+        handler: authController.logout,
+    },
+    
     {
         path: routeCore + '/user',
         method: 'GET',
@@ -29,6 +35,17 @@ const routes = [
         path: routeCore + '/user/{id}',
         method: 'GET',
         handler: handler.showUsersDetail
+    },
+    {
+        path: routeCore + '/register',
+        method: 'POST',
+        handler: authController.register,
+        options: {
+            auth: false,
+            payload: {
+                allow: 'application/json',
+            }
+        }
     },
     {
         path: routeCore + '/predict',

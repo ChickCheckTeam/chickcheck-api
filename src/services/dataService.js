@@ -9,7 +9,7 @@ admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),
 });
 
-const db = admin.firestore();
+export const db = admin.firestore();
 
 async function getUsers() {
     const snapshotUser = await db.collection('users').get();
@@ -61,27 +61,24 @@ async function getUserById(param) {
         message: 'User retrieved successfully',
         data: user
     };
-
-    // const userData = userDoc.data();
-
-    // const scanHistoryRef = userRef.collection('scan_history');
-    // const scanHistorySnapshot = await scanHistoryRef.get();
-
-    // const scanHistory = scanHistorySnapshot.docs.map((doc) => {
-    //     const scan = doc.data();
-    //     return {
-    //         id: doc.id,
-    //         ...scan,
-    //     }
-    // });
-
-    // const result = {
-    //     id: param,
-    //     ...userData,
-    //     scanHistory,
-    // };
-
-    // return result;
 }
 
-export default { db, getUsers, getUserById };
+async function createUser(data) {
+    const user = {
+        name: data.name,
+        username: data.username,
+        email: data.email,
+        password: data.password
+    };
+
+    const userRef = db.collection('users').doc();
+    await userRef.set(user);
+
+    return {
+        code: 201,
+        message: 'User created successfully',
+        data: user
+    };
+}
+
+export default { getUsers, getUserById, createUser };

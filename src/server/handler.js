@@ -1,9 +1,19 @@
 import dataService from '../services/dataService.js';
 
 async function home(request, h) {
-    return {
-        message: 'Hello World!',
-    };
+    const sesi = request.state.session;
+    const cookie = request.headers.authorization;
+    
+    console.log(sesi)
+    try {
+        
+        return test;
+    } catch (error) {
+        
+    }
+    return h.response({
+        message: 'Hello World!'
+    })
 }
 
 async function showUsers(request, h) {

@@ -1,5 +1,9 @@
-import jwt from "jsonwebtoken";
-import db from "../services/dataService.js";
+import dataService from "../services/dataService.js";
+import bcrypt from "bcryptjs";
+import jwtToken from "jsonwebtoken";
+import dotenv from "dotenv";
+
+const env = dotenv.config().parsed;
 
 function isEmail(emailAdress){
     let regex = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
@@ -27,31 +31,81 @@ async function register(request, h) {
     }
 
     try {
-        
-    } catch (error) {
-        
-    }
+        const users = await dataService.getUsers();
+        const user = users.find(user => user.email === email);
 
-    return h.response({
-        message: 'data retrieved!',
-    });
+        if (user) {
+            return h.response({
+                message: 'User already exists!',
+            }).code(401);
+        }
+
+        const salt = bcrypt.genSaltSync(10);
+        const hashedPassword = bcrypt.hashSync(password, salt);
+
+        const newUser = {
+            name,
+            username,
+            email,
+            password: hashedPassword,
+        };
+
+        const result = await dataService.createUser(newUser);
+
+        return h.response({
+            message: result.message,
+            data: result.data,
+        }).code(201);
+    } catch (error) {
+        return h.response({
+            message: error.message,
+        }).code(500);
+    }
 }
 
 async function login(request, h) {
-    // Login logic
-    const { email, password } = request.body;
+    const { email, password } = request.payload;
+
+    if (!email || !password) {
+        return h.response({
+            message: 'Email and password are required!'
+        }).code(400);
+    }
 
     try {
+        const users = await dataService.getUsers();
+        const user = users.find(user => user.email === email);
+
+        const isPasswordValid = bcrypt.compareSync(password, user.password);
+
+        if(user === undefined || isPasswordValid === false) {
+            return h.response({
+                message: 'Email or Password incorrect!'
+            }).code(404);
+        }
+
+        const token = jwtToken.sign({ id: user.id }, env.JWT_SECRET)
+
         return h.response({
             data: {
+                id: user.id,
                 email,
                 password
             },
-            message: 'data retrieved!',
-        });   
+            token,
+            message: 'Login Successful!',
+        }).state('session', token).code(200);
     } catch (error) {
-        return error.response(500).code(500).message(500).message;
+        return h.response({
+            message: error.message,
+        }).code(500);
     }
 }
 
-export default { register, login };
+async function logout(request, h) {
+    return h.response({
+        message: 'Logout Successful!',
+    }).unstate('session');
+}
+
+export default { register, login, logout };
