@@ -1,14 +1,12 @@
 import authController from '../middleware/authController.js';
-import handler from './handler.js';
+import userController from '../middleware/userController.js';
+import globalHandler from '../middleware/globalController.js';
+import scanController from '../middleware/scanController.js';
 
 const routeCore = "/api";
 
 const routes = [
-    {
-        path: routeCore + '/',
-        method: 'GET',
-        handler: handler.home,
-    },
+    // authentication
     {
         path: routeCore + '/login',
         method: 'POST',
@@ -25,25 +23,46 @@ const routes = [
         method: 'POST',
         handler: authController.logout,
     },
+
+    // home
+    {
+        path: routeCore + '/',
+        method: 'GET',
+        handler: globalHandler.home,
+    },
     
+    // user fetching
     {
         path: routeCore + '/user',
         method: 'GET',
-        handler: handler.showUsers
+        handler: userController.showUsers
     },
     {
         path: routeCore + '/user/{id}',
         method: 'GET',
-        handler: handler.showUsersDetail
+        handler: userController.showUsersDetail
     },
     {
         path: routeCore + '/register',
         method: 'POST',
-        handler: authController.register,
+        handler: userController.register,
         options: {
             auth: false,
             payload: {
                 allow: 'application/json',
+            }
+        }
+    },
+
+    // scan fetching
+    {
+        path: routeCore + '/scan',
+        method: 'POST',
+        handler: scanController.storeScan,
+        options: {
+            payload: {
+                allow: 'multipart/form-data',
+                multipart: true,
             }
         }
     },
@@ -52,7 +71,7 @@ const routes = [
     {
         path: routeCore + '/article',
         method: 'GET',
-        handler: handler.showArticles
+        handler: globalHandler.showArticles
     }
 ]
 
