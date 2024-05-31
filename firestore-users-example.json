@@ -9,6 +9,7 @@
             "id": "scan_uniquId_1",
             "title": "Scan 1",
             "createdAt": "2013-01-01",
+            "updatedAt": "2013-01-01",
             "results": "This is the result of scan 1",
             "suggestion": "This is the suggestion of scan 1"
         },
@@ -16,6 +17,7 @@
             "id": "scan_uniquId_2",
             "title": "Scan 1",
             "createdAt": "2013-01-01",
+            "updatedAt": "2013-01-01",
             "results": "This is the result of scan 1",
             "suggestion": "This is the suggestion of scan 1"
         }

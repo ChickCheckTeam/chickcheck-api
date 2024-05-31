@@ -67,6 +67,12 @@ const routes = [
             }
         }
     },
+
+    {
+        path: routeCore + '/bucket',
+        method: 'GET',
+        handler: globalHandler.getBuckets
+    },
     
     //article fetching
     {

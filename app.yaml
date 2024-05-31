@@ -1,0 +1,6 @@
+runtime: node18
+service: default
+
+handlers:
+  - url: /.*
+    script: auto

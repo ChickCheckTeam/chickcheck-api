@@ -1,17 +1,20 @@
 async function home(request, h) {
-    const sesi = request.state.session;
-    const cookie = request.headers.authorization;
-    
-    console.log(sesi)
     try {
-        
-        return test;
-    } catch (error) {
-        
+        return h.response({
+            message: 'Hello World!'
+        })
+    } catch (err) {
+        return h.response({
+            message: err.message
+        }).code(500);
     }
+}
+
+async function getBuckets(request, h) {
+
     return h.response({
-        message: 'Hello World!'
+        message: 'Hello World!',
     })
 }
 
-export default { home };
+export default { home, getBuckets };

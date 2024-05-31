@@ -1,4 +1,5 @@
 import admin from "firebase-admin";
+import { Storage } from "@google-cloud/storage";
 import { readFile } from 'fs/promises';
 
 const serviceAccount = JSON.parse(
@@ -8,6 +9,16 @@ const serviceAccount = JSON.parse(
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),
 });
+
+export const storage = new Storage({
+    projectId: "chickcheck-backend",
+    keyFilename: "./src/services/key.json"
+})
+
+async function getBucket(name) {
+    const bucket = storage.bucket(name);
+    return bucket;
+}
 
 export const db = admin.firestore();
 
@@ -42,7 +53,6 @@ async function getUsers() {
 }
 
 async function getUserById(param) {
-    const userId = param;
     const userRef = db.collection('users').doc(param);
     const userDoc = await userRef.get();
 
@@ -81,4 +91,4 @@ async function createUser(data) {
     };
 }
 
-export default { getUsers, getUserById, createUser };
+export default { getUsers, getUserById, createUser, getBucket };
