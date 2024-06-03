@@ -11,11 +11,11 @@ We aim to develop a backend API for Mobile Development. Ensuring API endpoint to
 ## GCP Environment
 ![diagram env][internal-source]
 
-[internal-source]: src/images/env%20diagram.png 'GCP Environment'
+[internal-source]: src/images/chickcheck%20google%20cloud%20env.png 'GCP Environment'
 
 ## Installation
 
-Dillinger requires [Node.js](https://nodejs.org/) v10+ to run.
+Chickcheck requires [Node.js](https://nodejs.org/) v10+ to run.
 Install the dependencies and devDependencies.
 
 ```sh
