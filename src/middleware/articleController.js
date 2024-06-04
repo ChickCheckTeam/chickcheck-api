@@ -2,6 +2,8 @@ import dataService from "../services/dataService.js"
 
 async function getArticles(request, h) {
     try {
+
+        //await db.collection("nama koleksi firestore").doc(article.id).set(article);
         const article = {
             "id": "",
             "title": "",
@@ -11,6 +13,8 @@ async function getArticles(request, h) {
             "content": ""
         
     };
+
+    await dataService.storeArticle(article);
     
     return h.response(article).code(200);
     } catch (error) {
