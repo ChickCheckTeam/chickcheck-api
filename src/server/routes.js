@@ -67,19 +67,43 @@ const routes = [
             }
         }
     },
-
-    {
-        path: routeCore + '/bucket',
-        method: 'GET',
-        handler: globalHandler.getBuckets
-    },
     
     //article fetching
     {
         path: routeCore + '/article',
         method: 'GET',
         handler: articleController.getArticles
-    }
+    },
+    {
+        path: routeCore + '/article',
+        method: 'POST',
+        handler: articleController.storeArticle,
+        options: {
+            payload: {
+                allow: 'application/json',
+            }
+        }
+    },
+    {
+        path: routeCore + '/article/{id}',
+        method: 'GET',
+        handler: articleController.getArticleById
+    },
+    {
+        path: routeCore + '/article/{id}',
+        method: 'PUT',
+        handler: articleController.updateArticle,
+        options: {
+            payload: {
+                allow: 'application/json',
+            }
+        }
+    },
+    {
+        path: routeCore + '/article/{id}',
+        method: 'DELETE',
+        handler: articleController.deleteArticle
+    },
 ]
 
 export default routes;

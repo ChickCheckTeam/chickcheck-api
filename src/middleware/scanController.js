@@ -1,13 +1,13 @@
 import { db } from "../services/dataService.js";
-import jwt from "jsonwebtoken";
-import predictClassification from "../services/inferenceService.js";
+import { authCheck } from "./authCheck.js";
+// import predictClassification from "../services/inferenceService.js";
 
 async function storeScan(request, h) {
     try {
         const { image } = request.payload;
         const { model } = request.server.app;
 
-        const id = jwt.verify(request.headers.authorization.split(' ')[1], process.env.JWT_SECRET).id;
+        const id = authCheck(request.headers.authorization);
 
         const { predictResult, confidenceScore } = await predictClassification(model, image);
         

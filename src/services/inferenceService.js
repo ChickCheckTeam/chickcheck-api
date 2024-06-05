@@ -5,7 +5,7 @@ async function predictClassification(model, image) {
     try {
         const tensor = tf.node
             .decodeJpeg(image)
-            .resizeNearestNeighbor([150, 150])
+            .resizeNearestNeighbor([224, 224])
             .expandDims()
             .toFloat().div(tf.scalar(255));
 
