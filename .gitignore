@@ -1,6 +1,8 @@
 # Dependency directories
 node_modules/
 
+src/services/key.json
+
 # Environment files
 .env
 .env.*
