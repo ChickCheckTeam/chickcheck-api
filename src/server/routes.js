@@ -20,6 +20,11 @@ const routes = [
         }
     },
     {
+        path: routeCore + '/profile',
+        method: 'GET',
+        handler: authController.profile,
+    },
+    {
         path: routeCore + '/logout',
         method: 'POST',
         handler: authController.logout,

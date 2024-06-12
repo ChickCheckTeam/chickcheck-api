@@ -26,7 +26,7 @@ async function getArticles(request, h) {
 // store article
 async function storeArticle(request, h) {
     try {
-        const { title, content } = request.payload;
+        const { title, content, tags, sources } = request.payload;
 
         const id = authCheck(request.headers.authorization);
         const user = (await dataService.getUserById(id)).data;
@@ -37,6 +37,20 @@ async function storeArticle(request, h) {
             }).code(404);
         }
 
+        if(!title || !content || !tags || !sources) {
+            return h.response({
+                status: 'fail',
+                message: 'All fields are required'
+            }).code(400);
+        }
+
+        if(tags.length == 0) {
+            return h.response({
+                status: 'fail',
+                message: 'Tags are required'
+            }).code(400);
+        }
+
         const article = {
             title,
             author: {
@@ -45,6 +59,8 @@ async function storeArticle(request, h) {
             },
             createdAt: new Date().toISOString(),
             updatedAt: new Date().toISOString(),
+            tags,
+            sources,
             content,
         }
 
@@ -67,7 +83,9 @@ async function storeArticle(request, h) {
 // retrieve article by id
 async function getArticleById(request, h) {
     try {
-        const article = await db.collection('articles').doc(request.params.id).get();
+        // const article = await db.collection('articles').doc(request.params.id).get();
+        const article = (await db.collection('articles').where("title", "==", "Salmonellosis").get()).docs[0];
+        console.log(article)
 
         return h.response({
             status: 'success',
@@ -87,11 +105,18 @@ async function getArticleById(request, h) {
 // update article
 async function updateArticle(request, h) {
     try {
-        let { title, content } = request.payload;
+        let { title, content, tags, sources } = request.payload;
         const article = db.collection('articles').doc(request.params.id)
+        if(!article) {
+            return h.response({
+                status: 'fail',
+                message: 'Article not found'
+            }).code(404);
+        }
+
         const oldArticle = (await article.get()).data();
 
-        if(title === undefined && content === undefined) {
+        if(title === undefined && content === undefined && tags === undefined && sources === undefined) {
             return h.response({
                 status: 'fail',
                 message: 'No data to update'
@@ -100,17 +125,21 @@ async function updateArticle(request, h) {
 
         if(title === undefined) title = oldArticle.title;
         if(content === undefined) content = oldArticle.content;
+        if(tags === undefined) tags = oldArticle.tags;
+        if(sources === undefined) sources = oldArticle.sources;
 
-        if(!article) {
+        if(tags.length == 0) {
             return h.response({
                 status: 'fail',
-                message: 'Article not found'
-            }).code(404);
+                message: 'Tags are required'
+            }).code(400);
         }
 
         let newArticle = {
             title: title ?? oldArticle.title,
             content: content ?? oldArticle.content,
+            tags: tags ?? oldArticle.tags,
+            sources: sources ?? oldArticle.sources,
             updatedAt: new Date().toISOString()
         }
         await article.update(newArticle);

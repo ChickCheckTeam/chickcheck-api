@@ -1,8 +1,13 @@
 {
-    "id": "article_uniqueId_2",
-    "title": "Article 2",
-    "author": "Jane Doe",
-    "createdAt": "2013-01-02",
-    "updatedAt": "2013-01-02",
+    "id": "article_uniqueId_1",
+    "title": "Article 1",
+    "author": {
+        "id": "user_id_1",
+        "name": "user_name_1"
+    },
+    "createdAt": "2024-06-10T06:39:30.129Z",
+    "updatedAt": "2024-06-10T06:39:30.129Z",
+    "tags": ["tags_1", "tags_2"],
+    "sources": ["source_1", "source_2"],
     "content": "This is the content of article 2"
 }

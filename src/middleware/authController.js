@@ -1,4 +1,5 @@
 import dataService from "../services/dataService.js";
+import { authCheck } from "./authCheck.js";
 import jwtToken from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 import dotenv from "dotenv";
@@ -49,4 +50,23 @@ async function logout(request, h) {
     }).unstate('session');
 }
 
-export default { login, logout };
+async function profile(request, h) {
+    const id = authCheck(request.headers.authorization);
+    const users = await dataService.getUserById(id);
+
+    if(users.code === 404) {
+        return h.response({
+            status: "fail",
+            message: 'User not found!'
+        }).code(404);
+    }
+
+    delete users.data.password;
+
+    return h.response({
+        status: "success",
+        data: users.data,
+    });
+}
+
+export default { login, logout, profile };
