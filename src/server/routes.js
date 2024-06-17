@@ -72,6 +72,11 @@ const routes = [
             }
         }
     },
+    {
+        path: routeCore + '/scan/recent',
+        method: 'GET',
+        handler: scanController.getScans
+    },
     
     //article fetching
     {

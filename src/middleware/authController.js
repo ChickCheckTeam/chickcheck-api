@@ -1,4 +1,5 @@
 import dataService from "../services/dataService.js";
+import { getArticleByTitle } from "../services/dataService.js";
 import { authCheck } from "./authCheck.js";
 import jwtToken from "jsonwebtoken";
 import bcrypt from "bcryptjs";
@@ -62,6 +63,20 @@ async function profile(request, h) {
     }
 
     delete users.data.password;
+    
+    const scanWithArti = async () => {
+        const scansWithArticles = await Promise.all(users.data.scanHistory.map(async scan => {
+            const arti = await getArticleByTitle(scan.title);
+            return {
+                ...scan,
+                article: arti
+            };
+        }));
+        return scansWithArticles;
+    }
+
+    const data = await scanWithArti();
+    users.data.scanHistory = data;
 
     return h.response({
         status: "success",

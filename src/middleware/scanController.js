@@ -1,6 +1,6 @@
-import { db } from "../services/dataService.js";
-import { authCheck } from "./authCheck.js";
-// import predictClassification from "../services/inferenceService.js";
+import { db, uploadImage, getArticleByTitle } from "../services/dataService.js";
+import { authCheck } from './authCheck.js'
+import predictClassification from "../services/inferenceService.js";
 
 async function storeScan(request, h) {
     try {
@@ -13,11 +13,17 @@ async function storeScan(request, h) {
         
         const scan = db.collection('users').doc(id).collection('scan_history').doc();
 
+        const uploadImg = await uploadImage(image, predictResult)
+
+        if(uploadImg.code != 201) {
+            return h.response(uploadImg).code(uploadImg.code);
+        }
+
         const scanStructure = {
             title: predictResult,
             createdAt: new Date().toISOString(),
-            results: `Result of the scan is ${predictResult} with confidence score ${Math.floor(confidenceScore)}%`,
-            suggestion: `Suggestion for ${predictResult} is to do this and that`,
+            results: `Result of the scan is ${predictResult}`,
+            imageUrl: uploadImg.url
         }
 
         await scan.set(scanStructure);
@@ -33,14 +39,54 @@ async function storeScan(request, h) {
             resultMsg = 'Model is predicted successfully but under 50% confidence score. Invalid result, use better quality image for better result';
         }
 
+        let article = await getArticleByTitle(predictResult)
+
         return h.response({
             status: 'success',
             message: resultMsg,
-            data: scanStructure
+            data: scanStructure,
+            article
         }).code(201);
     } catch (error) {
         return h.response(error).code(500);
     }
 }
 
-export default { storeScan }
+async function getScans(request, h) {
+    try {
+        const id = authCheck(request.headers.authorization);
+        const users = db.collection('users').doc(id).collection('scan_history').orderBy("createdAt", 'desc').limit(10);
+        
+        const data = await users.get()
+        let scans = [];
+
+        data.forEach(doc => {
+            let scan = {
+                id: doc.id,
+                ...doc.data(),
+            }
+            scans.push(scan)
+        })
+
+        const scanWithArti = async () => {
+            const scansWithArticles = await Promise.all(scans.map(async scan => {
+                const arti = await getArticleByTitle(scan.title);
+                return {
+                    ...scan,
+                    article: arti
+                };
+            }));
+            return scansWithArticles;
+        }
+
+        const dataScan = await scanWithArti();
+        return h.response({
+            message: "Fetched 10 latest scanned image",
+            data: dataScan
+        });
+    } catch (error) {
+        return h.response(error).code(500);
+    }
+}
+
+export default { storeScan, getScans }
