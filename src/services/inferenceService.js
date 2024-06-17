@@ -16,7 +16,7 @@ async function predictClassification(model, image) {
         const confidenceScore = Math.max(...score) * 100;
         const classResult = tf.argMax(prediction, 1).dataSync()[0];
 
-        const predictionLabel = ['Coccidiosis', 'Healthy', 'Newcastle Disease', 'Salmonella'];
+        const predictionLabel = ['Coccidiosis', 'Healthy', 'New Castle Disease', 'Salmonellosis'];
         const predictResult = predictionLabel[classResult];
 
         return { predictResult, confidenceScore };
