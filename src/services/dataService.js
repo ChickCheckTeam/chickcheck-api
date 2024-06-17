@@ -1,6 +1,7 @@
 import admin from "firebase-admin";
 import { Storage } from "@google-cloud/storage";
 import { readFile } from 'fs/promises';
+import { randomUUID } from 'crypto';
 
 const serviceAccount = JSON.parse(
     await readFile(new URL('./key.json', import.meta.url))
@@ -15,9 +16,58 @@ export const storage = new Storage({
     keyFilename: "./src/services/key.json"
 })
 
-async function getBucket(name) {
+export function getBucket(name) {
     const bucket = storage.bucket(name);
     return bucket;
+}
+
+export async function uploadImage(image, filename = "scan_result") {
+    const bucket = getBucket("tensorflowjs-chickcheck-model");
+    const buffer = Buffer.from(image, 'base64');
+
+    const id = randomUUID();
+
+    const name = filename.toLowerCase() + "_" + id;
+    let response = {};
+
+    const file = bucket.file(`scan-result/${name}.jpg`);
+
+    // alternatif method
+    // file.save(buffer, {
+    //     metadata: {
+    //         contentType: 'image/jpeg', // Adjust content type as needed
+    //         cacheControl: 'public, max-age=31536000',
+    //     },
+    // });
+
+    return new Promise((resolve, reject) => {
+        const stream = file.createWriteStream({
+            metadata: {
+                contentType: 'image/jpeg', // Adjust content type as needed
+                cacheControl: 'public, max-age=31536000',
+            },
+        });
+    
+        stream.on('error', (err) => {
+            console.error('ERROR:', err);
+            reject({
+                code: 500,
+                message: 'Failed to upload image.',
+            });
+        });
+    
+        stream.on('finish', () => {
+            console.log(` uploaded to bucket.`);
+            resolve({
+                code: 201,
+                message: 'Image uploaded successfully.',
+                url: `https://storage.googleapis.com/tensorflowjs-chickcheck-model/scan-result/${name}.jpg`
+            });
+        });
+    
+        stream.end(buffer);
+    })
+
 }
 
 export const db = admin.firestore();
@@ -91,4 +141,37 @@ async function createUser(data) {
     };
 }
 
-export default { getUsers, getUserById, createUser, getBucket };
+export async function getArticleByTitle(title) {
+    let articles = db.collection("articles");
+    let article;
+
+    switch (title) {
+        case "Salmonellosis":
+            article = (await articles.where("title", "==", "Salmonellosis").get()).docs[0];
+            break;
+
+        case "New Castle Disease":
+            article = (await articles.where("title", "==", "New Castle Disease").get()).docs[0];
+            break;
+
+        case "Healthy":
+            article = (await articles.where("title", "==", "Healthy").get()).docs[0];
+            break;
+
+        case "Coccidiosis":
+            article = (await articles.where("title", "==", "Coccidiosis").get()).docs[0];
+            break;
+    
+        default:
+            break;
+    }
+
+    article = {
+        id: article.id,
+        ...article.data()
+    }
+
+    return article;
+}
+
+export default { getUsers, getUserById, createUser };
