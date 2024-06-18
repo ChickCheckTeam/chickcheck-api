@@ -11,7 +11,7 @@ We aim to develop a backend API for Mobile Development. Ensuring API endpoint to
 ## GCP Environment
 ![diagram env][internal-source]
 
-[internal-source]: src/images/chickcheck%20google%20cloud%20env.png 'GCP Environment'
+[internal-source]: src/images/ChickCheck%20Environment.png 'GCP Environment'
 
 ## Installation
 
