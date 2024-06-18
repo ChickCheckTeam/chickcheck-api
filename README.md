@@ -39,25 +39,18 @@ npm run dev
 ```
 
 ## Endpoint
-| HTTP Method | Path | Desc | Section
-| Dropbox | [plugins/dropbox/README.md][PlDb] |
-| GitHub | [plugins/github/README.md][PlGh] |
-| Google Drive | [plugins/googledrive/README.md][PlGd] |
-| OneDrive | [plugins/onedrive/README.md][PlOd] |
-| Medium | [plugins/medium/README.md][PlMe] |
-| Google Analytics | [plugins/googleanalytics/README.md][PlGa] |
-
-| GET | /api/ | Dashboard | Home
-| GET | /api/user | all users available | User
-| GET | /api/user/{id} | Retrieve user by id | User
-| POST | /api/register | User registration | User
-| POST | /api/login | Login authorization | Authentication
-| POST | /api/logout | Logout authorization | Authentication
-| GET | /api/scan | User scan image | Scan
-| POST | /api/scan | Process scanned image | Scan
-| GET | /api/scan/result | Result scanned image | Scan
-| GET | /api/article	| List all article | Article
-| GET | /api/article/{id} | Retrieve article by id | Article
-| POST | /api/article	| Store new article | Article
-| PUT | /api/article/{id} | Update article by id | Article
-| DELETE | /api/article/{id} | Delete article by id | Article
+| HTTP Method | Path | Desc | Section |
+| GET | /api/ | Dashboard | Home |
+| GET | /api/user | all users available | User |
+| GET | /api/user/{id} | Retrieve user by id | User |
+| POST | /api/register | User registration | User |
+| POST | /api/login | Login authorization | Authentication |
+| POST | /api/logout | Logout authorization | Authentication |
+| GET | /api/scan | User scan image | Scan |
+| POST | /api/scan | Process scanned image | Scan |
+| GET | /api/scan/result | Result scanned image | Scan |
+| GET | /api/article	| List all article | Article |
+| GET | /api/article/{id} | Retrieve article by id | Article |
+| POST | /api/article	| Store new article | Article |
+| PUT | /api/article/{id} | Update article by id | Article |
+| DELETE | /api/article/{id} | Delete article by id | Article |
