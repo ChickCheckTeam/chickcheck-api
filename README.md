@@ -4,6 +4,8 @@
 - [Features](#features)
 - [Diagram Environment](#Google-Cloud-Platform-Environment)
 - [Installation](#installation)
+- [Endpoint Route](#endpoint-route)
+- [Endpoint Docs](#endpoint-docs)
 
 ## Descripttion
 We aim to develop a backend API for Mobile Development. Ensuring API endpoint to give responses and retrieve request from android. Also integration with Machine Learning model using Tensorflow JS.
@@ -58,6 +60,31 @@ npm run dev
 | DELETE | /api/article/{id} | Delete article by id | Article |
 
 # Endpoint Docs
+
+## Table
+- [Authentication](#authentication)
+    - [Login](#Login)
+    - [Logout](#Logout)
+    - [Profile](#Profile)
+- [User](#user)
+- [Scan](#scan)
+- [Article](#article)
+
+## Authentication
+- [Login](#login)
+- [Logout](#logout)
+- [Profile](#profile)
+
+After you logged in to the application, you need to pass the authorization token in the header using `Authorization Bearer Token`
+
+### Login
+- **Endpoint**: `/login`
+- **Method**: POST 
+
+Mengautentikasi user dengan password dan email yang sudah didaftarkan.
+
+### Logout
+### Profile
 
 ## User
 - [Register](#register)
