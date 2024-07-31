@@ -1,6 +1,7 @@
 # ChickCheck Backend API
 
 ## Contents
+- [Link PPT](https://www.canva.com/design/DAGGrCSx6W4/zPrTKTjHW3bw59TUGW3SZQ/edit?utm_content=DAGGrCSx6W4&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton)
 - [Features](#features)
 - [Diagram Environment](#Google-Cloud-Platform-Environment)
 - [Installation](#installation)
